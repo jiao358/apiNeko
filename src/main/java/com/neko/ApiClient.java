@@ -65,7 +65,13 @@ public class ApiClient {
             CloseableHttpClient httpClient = manager.getHttpClient();
             HttpPost httpPost = new HttpPost(API_URL + uri);
             setHeader(httpPost);
-            httpPost.setEntity( new StringEntity(JsonUtil.writeValue(createOrderReq)));
+            StringEntity se= new StringEntity(JsonUtil.writeValue(createOrderReq),"utf-8");
+            se.setContentType("application/json; charset=utf-8");
+            se.setContentEncoding("utf-8");
+
+
+
+            httpPost.setEntity(se);
             HttpResponse response = httpClient.execute(httpPost);
 
             String result ="";
