@@ -50,7 +50,8 @@ public class ApiClient {
         String uri = "/v1/order/orders";
 
         ApiSignature sign = new ApiSignature();
-        sign.createSignature(this.accessKeyId, this.accessKeySecret, "POST", API_HOST, uri, new HashMap<>());
+        Map<String,String> param = new HashMap<>();
+        sign.createSignature(this.accessKeyId, this.accessKeySecret, "POST", API_HOST, uri, param);
         long order=0L;
         try {
 
@@ -63,7 +64,7 @@ public class ApiClient {
             createOrderReq.source = "api";
 
             CloseableHttpClient httpClient = manager.getHttpClient();
-            HttpPost httpPost = new HttpPost(API_URL + uri);
+            HttpPost httpPost = new HttpPost(API_URL + uri+"?"+toQueryString(param));
             setHeader(httpPost);
             StringEntity se= new StringEntity(JsonUtil.writeValue(createOrderReq),"utf-8");
             se.setContentType("application/json; charset=utf-8");
