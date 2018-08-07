@@ -35,17 +35,27 @@ public class ApiClient {
     String accessKeySecret="5774a589-a4b36db6-382fdc6f-6bbae";
     String assetPassword;
 
-
+    /**
+     * 获取accountId
+     * @return
+     */
+    public String getAccountId(){
+        String uri = "/v1/account/accounts";
+        String ab= get(uri,new HashMap<>());
+        return ab;
+    }
 
 
     public long createOrder(long orderId){
-        String uri ="/v1/order/orders/" + orderId + "/place";
+        String uri = "/v1/order/orders";
 
         ApiSignature sign = new ApiSignature();
         sign.createSignature(this.accessKeyId, this.accessKeySecret, "POST", API_HOST, uri, new HashMap<>());
-
         long order=0L;
         try {
+
+
+
             CloseableHttpClient httpClient = manager.getHttpClient();
             HttpPost httpPost = new HttpPost(API_URL + uri);
             setHeader(httpPost);
@@ -63,7 +73,8 @@ public class ApiClient {
             order = ds.getLong("data");
 
         } catch (IOException e) {
-            System.out.println("系统异常");
+            System.out.println(" 创建订单异常 e");
+
         }finally {
             return order;
         }
@@ -72,22 +83,32 @@ public class ApiClient {
 
 
     public String getOrderInfo(String orderId) throws Exception {
-        ApiSignature sign = new ApiSignature();
         String uri="/v1/order/orders/" + orderId;
         Map<String,String> param = new HashMap<>();
+        return  get(uri,param);
+
+    }
+
+    String get(String uri,Map<String,String > param ){
+        ApiSignature sign = new ApiSignature();
         sign.createSignature(this.accessKeyId, this.accessKeySecret, "GET", API_HOST, uri, param);
         CloseableHttpClient httpClient = manager.getHttpClient();
         String result="";
-        HttpGet httpGet = new HttpGet(API_URL+uri+"?"+toQueryString(param));
-        System.out.println("创建远程连接完毕:"+ httpGet.getURI());
-        setHeader(httpGet);
-        HttpResponse response = httpClient.execute(httpGet);
-        if (response != null) {
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                result = EntityUtils.toString(resEntity, "utf-8");
+        try{
+            HttpGet httpGet = new HttpGet(API_URL+uri+"?"+toQueryString(param));
+            System.out.println("创建远程连接完毕:"+ httpGet.getURI());
+            setHeader(httpGet);
+            HttpResponse response = httpClient.execute(httpGet);
+            if (response != null) {
+                HttpEntity resEntity = response.getEntity();
+                if (resEntity != null) {
+                    result = EntityUtils.toString(resEntity, "utf-8");
+                }
             }
+        }catch (Exception e){
+            System.out.println("get 请求失败");
         }
+
 
         return result;
 

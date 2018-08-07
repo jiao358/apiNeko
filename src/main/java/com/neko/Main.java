@@ -8,16 +8,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class Main {
     public static void main(String[] args) throws Exception{
         ApiClient apiClient= new ApiClient();
-        //String ab= apiClient.getOrderInfo("9339040475");
-        //System.out.println(ab);
-        CreateOrderRequest createOrderReq = new CreateOrderRequest();
-        createOrderReq.accountId = String.valueOf(21321);
-        createOrderReq.amount = Double.toString(123);
+        String ab= apiClient.getOrderInfo("9339040475");
+        System.out.println("获取 getOrderInfo 接口"+ab);
 
-        createOrderReq.symbol = "htusdt";
-        createOrderReq.type = CreateOrderRequest.OrderType.BUY_MARKET;
-        createOrderReq.source = "api";
-        String aa= JsonUtil.writeValue(createOrderReq);
-        System.out.println(aa);
+        String account=apiClient.getAccountId();
+        System.out.println("获取 account 接口:"+ account);
+
+
     }
 }
