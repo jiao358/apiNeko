@@ -12,7 +12,10 @@ public class Main {
 
         String account=apiClient.getAccountId();
         System.out.println("获取 account 接口:"+ account);
+        int accId = 4267079;
 
+        long order =apiClient.createOrder();
+        System.out.println("获取order接口:" + order);
 
     }
 }
