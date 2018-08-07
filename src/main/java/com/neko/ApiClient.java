@@ -1,9 +1,12 @@
 package com.neko;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,42 @@ public class ApiClient {
     String accessKeyId="a7fd725a-502746cd-69b903fd-4418a";
     String accessKeySecret="5774a589-a4b36db6-382fdc6f-6bbae";
     String assetPassword;
+
+
+
+
+    public long createOrder(long orderId){
+        String uri ="/v1/order/orders/" + orderId + "/place";
+
+        ApiSignature sign = new ApiSignature();
+        sign.createSignature(this.accessKeyId, this.accessKeySecret, "POST", API_HOST, uri, new HashMap<>());
+
+        long order=0L;
+        try {
+            CloseableHttpClient httpClient = manager.getHttpClient();
+            HttpPost httpPost = new HttpPost(API_URL + uri);
+            setHeader(httpPost);
+            httpPost.setEntity( new StringEntity(JsonUtil.writeValue(null)));
+            HttpResponse response = httpClient.execute(httpPost);
+
+            String result ="";
+            if (response != null) {
+                HttpEntity resEntity = response.getEntity();
+                if (resEntity != null) {
+                    result = EntityUtils.toString(resEntity, "utf-8");
+                }
+            }
+            JSONObject ds = JSONObject.parseObject(result);
+            order = ds.getLong("data");
+
+        } catch (IOException e) {
+            System.out.println("系统异常");
+        }finally {
+            return order;
+        }
+
+    }
+
 
     public String getOrderInfo(String orderId) throws Exception {
         ApiSignature sign = new ApiSignature();

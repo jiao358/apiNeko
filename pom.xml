@@ -43,6 +43,16 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.china.shared</groupId>
+            <artifactId>headquarters.commons.fasttext</artifactId>
+            <version>1.2-S</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.debugcenter</groupId>
+            <artifactId>debugcenter.api</artifactId>
+            <version>1.1.16</version>
+        </dependency>
     </dependencies>
 
     <!-- 局部jdk配置，pom.xml中 -->
