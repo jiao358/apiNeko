@@ -1,8 +1,5 @@
 package com.neko;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 /**
  * @author fuming.lj 2018/8/7
  **/
