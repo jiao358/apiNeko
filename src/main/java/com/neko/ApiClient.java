@@ -45,6 +45,48 @@ public class ApiClient {
         return ab;
     }
 
+    public void execute(long orderId){
+        String uri ="/v1/order/orders/" + orderId + "/place";
+
+        ApiSignature sign = new ApiSignature();
+        Map<String,String> access =new HashMap<>();
+        sign.createSignature(this.accessKeyId, this.accessKeySecret, "POST", API_HOST, uri, access);
+        long order=0L;
+        try {
+            CloseableHttpClient httpClient = manager.getHttpClient();
+
+            HttpPost httpPost = new HttpPost(API_URL + uri+ "?" + toQueryString(access));
+            setHeader(httpPost);
+            StringEntity postBody =new StringEntity(JsonUtil.writeValue(null),"utf-8");
+            postBody.setContentType("application/json; charset=utf-8");
+            postBody.setContentEncoding("utf-8");
+            httpPost.setEntity(postBody);
+            HttpResponse response = httpClient.execute(httpPost);
+
+
+            String result ="";
+            if (response != null) {
+                HttpEntity resEntity = response.getEntity();
+                if (resEntity != null) {
+                    result = EntityUtils.toString(resEntity, "utf-8");
+                }
+            }
+            System.out.println("执行结果 :" + result);
+            JSONObject ds = JSONObject.parseObject(result);
+            order = ds.getLong("data");
+
+        } catch (IOException e) {
+            System.out.println("执行订单异常");
+
+        }
+
+
+
+
+
+    }
+
+
 
     public long createOrder(){
         String uri = "/v1/order/orders";
@@ -57,7 +99,7 @@ public class ApiClient {
 
             CreateOrderRequest createOrderReq = new CreateOrderRequest();
             createOrderReq.accountId = String.valueOf(4267079);
-            createOrderReq.amount = Double.toString(0.1 * (double)27841 / 10000);
+            createOrderReq.amount = Double.toString(0.1 * (double)27800 / 10000);
 
             createOrderReq.symbol = "htusdt";
             createOrderReq.type = CreateOrderRequest.OrderType.BUY_MARKET;

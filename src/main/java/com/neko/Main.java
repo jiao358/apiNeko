@@ -17,5 +17,7 @@ public class Main {
         long order =apiClient.createOrder();
         System.out.println("获取order接口:" + order);
 
+        apiClient.execute(order);
+
     }
 }
