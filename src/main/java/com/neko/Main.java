@@ -1,6 +1,5 @@
 package com.neko;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * @author fuming.lj 2018/8/7
