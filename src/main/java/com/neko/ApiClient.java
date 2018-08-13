@@ -87,6 +87,12 @@ public class ApiClient {
     }
 
 
+    public String getCash(int accountId){
+        String uri  = "/v1/account/accounts/"+accountId+"/balance";
+        Map param = new HashMap();
+
+       return  get(uri,param);
+    }
 
     public long createOrder(){
         String uri = "/v1/order/orders";

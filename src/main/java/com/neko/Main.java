@@ -1,5 +1,6 @@
 package com.neko;
 
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author fuming.lj 2018/8/7
@@ -14,10 +15,8 @@ public class Main {
         System.out.println("获取 account 接口:"+ account);
         int accId = 4267079;
 
-        long order =apiClient.createOrder();
-        System.out.println("获取order接口:" + order);
+        String str= apiClient.getCash(accId);
 
-        apiClient.execute(order);
-
+        System.out.println("获取 account 接口:"+ JSONObject.toJSON(str));
     }
 }
