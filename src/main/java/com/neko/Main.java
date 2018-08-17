@@ -10,10 +10,11 @@ public class Main {
 
 
         ApiClient apiClient= new ApiClient();
-        long begin = System.currentTimeMillis();
-        String ab= apiClient.getOrderInfo("9339040475");
-        System.out.println("获取 getOrderInfo 接口"+ab);
-        System.out.println("查询时间:"+(System.currentTimeMillis()-begin)+"ms");
+        for(int i=0;i<5;i++){
+            long begin = System.currentTimeMillis();
+            String ab= apiClient.getOrderInfo("9339040475");
+            System.out.println("查询时间:"+(System.currentTimeMillis()-begin)+"ms");
+        }
 
         String account=apiClient.getAccountId();
         System.out.println("获取 account 接口:"+ account);
@@ -21,6 +22,6 @@ public class Main {
 
         String str= apiClient.getCash(accId);
 
-        //System.out.println("获取 account 接口:"+ JSONObject.toJSON(str));
+
     }
 }
