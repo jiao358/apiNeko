@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 /**
  * @author fuming.lj 2018/8/7
  **/
-@Service
 public class ApiClient {
 
-     HttpConnectionManager manager = new HttpConnectionManager();
+    static HttpConnectionManager manager;
+
     static final String API_HOST = "api.huobi.pro";
 
     static final String API_URL = "https://" + API_HOST;
@@ -34,6 +34,12 @@ public class ApiClient {
     String accessKeyId="205911d9-34c137a1-33ed938c-d9c12";
     String accessKeySecret="c35095b1-d25a11d6-a949a451-205a4";
     String assetPassword;
+
+    static {
+        manager=   new HttpConnectionManager();
+        manager.init();
+
+    }
 
     /**
      * 获取accountId

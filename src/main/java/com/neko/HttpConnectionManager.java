@@ -16,15 +16,13 @@ import javax.net.ssl.SSLContext;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @author fuming.lj 2018/8/7
+ * @author fuming.lj 2018/7/23
+ * http链接管理吃
  **/
-@Service
 public class HttpConnectionManager {
-
-
     PoolingHttpClientConnectionManager cm = null;
 
-    @PostConstruct
+
     public void init() {
         LayeredConnectionSocketFactory sslsf = null;
         try {
@@ -40,7 +38,7 @@ public class HttpConnectionManager {
             .build();
         cm =new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         cm.setMaxTotal(200);
-        cm.setDefaultMaxPerRoute(20);
+        cm.setDefaultMaxPerRoute(40);
     }
 
     public CloseableHttpClient getHttpClient() {

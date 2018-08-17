@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSONObject;
  **/
 public class Main {
     public static void main(String[] args) throws Exception{
+
+
         ApiClient apiClient= new ApiClient();
         long begin = System.currentTimeMillis();
         String ab= apiClient.getOrderInfo("9339040475");
@@ -19,6 +21,6 @@ public class Main {
 
         String str= apiClient.getCash(accId);
 
-        System.out.println("获取 account 接口:"+ JSONObject.toJSON(str));
+        //System.out.println("获取 account 接口:"+ JSONObject.toJSON(str));
     }
 }
