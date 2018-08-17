@@ -2,6 +2,8 @@ package com.neko;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.List;
+
 /**
  * @author fuming.lj 2018/8/7
  **/
@@ -19,8 +21,14 @@ public class Main {
         String account=apiClient.getAccountId();
         System.out.println("获取 account 接口:"+ account);
         int accId = 4267079;
+        List<JSONObject> str= apiClient.getAccountAmount(4267079);
+        System.out.println("当前账户状态:"+str);
+        Thread.sleep(8*1000);
+        long id =apiClient.createOrder();
+        System.out.println("创建orderId");
+        List<JSONObject> bb= apiClient.getAccountAmount(4267079);
+        System.out.println("查看是否占用金额:"+bb);
 
-        String str= apiClient.getCash(accId);
 
 
     }

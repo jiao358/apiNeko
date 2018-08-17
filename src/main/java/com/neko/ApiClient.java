@@ -1,5 +1,6 @@
 package com.neko;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,7 +17,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -111,7 +114,7 @@ public class ApiClient {
 
             CreateOrderRequest createOrderReq = new CreateOrderRequest();
             createOrderReq.accountId = String.valueOf(4267079);
-            createOrderReq.amount = Double.toString(0.1 * (double)27800 / 10000);
+            createOrderReq.amount = Double.toString(0.1 * (double)20000 / 10000);
 
             createOrderReq.symbol = "htusdt";
             createOrderReq.type = CreateOrderRequest.OrderType.BUY_MARKET;
@@ -147,6 +150,37 @@ public class ApiClient {
         }finally {
             return order;
         }
+
+    }
+
+    public List<JSONObject> getAccountAmount(int orderId) throws Exception {
+        String uri="/v1/account/accounts/"+orderId+"/balance";
+        Map<String,String> param = new HashMap<>();
+
+
+        JSONObject  ds = JSONObject.parseObject(get(uri,param));
+        List<JSONObject> result = new ArrayList();
+        String success = ds.getString("status");
+        if(success.equals("ok")){
+            JSONArray array=  ds.getJSONObject("data").getJSONArray("list");
+            List<JSONObject> linkedList = new ArrayList();
+            for(int i=0;i<array.size();i++){
+                linkedList.add(array.getJSONObject(i));
+
+            }
+
+            linkedList.forEach(domain->{
+                if(domain.getString("currency").equals("usdt") || "ht".equals(domain.getString("currency"))){
+                    result.add(domain);
+                }
+            });
+
+        }
+
+
+
+
+        return result;
 
     }
 
