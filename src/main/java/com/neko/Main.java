@@ -24,8 +24,10 @@ public class Main {
         List<JSONObject> str= apiClient.getAccountAmount(4267079);
         System.out.println("当前账户状态:"+str);
         Thread.sleep(8*1000);
+        long begin = System.currentTimeMillis();
         long id =apiClient.createOrder();
-        System.out.println("创建orderId");
+
+        System.out.println("创建orderId"+id+" 并且查询时间:"+(System.currentTimeMillis()-begin)+" ms");
         List<JSONObject> bb= apiClient.getAccountAmount(4267079);
         System.out.println("查看是否占用金额:"+bb);
 
